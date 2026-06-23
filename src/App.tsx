@@ -203,7 +203,17 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
       });
 
       if (!response.ok) {
-        throw new Error("Submission failed");
+        let errorMsg = "Submission failed";
+        try {
+          const errData = await response.json();
+          if (errData && errData.error) {
+            errorMsg = errData.error;
+          }
+        } catch (_) {
+          const errText = await response.text();
+          if (errText) errorMsg = errText;
+        }
+        throw new Error(errorMsg);
       }
 
       // Reset form state
@@ -217,9 +227,9 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
       setPhoneNumber("");
       
       setShowSuccess(true);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Submission error:", error);
-      alert("There was an error. Please try again or contact us directly.");
+      alert(`Error submitting form: ${error.message || "Please check your network and try again."}`);
     } finally {
       setLoading(false);
     }
