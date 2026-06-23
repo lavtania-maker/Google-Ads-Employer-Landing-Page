@@ -192,44 +192,26 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
       phone_number: `${phoneCode}${phoneNumber}`,
       headcount: formData.headcount,
       hiring_timeline: formData.hiring_timeline,
-      sheet_id: import.meta.env.VITE_SHEET_ID || "",
-      sheet_name: import.meta.env.VITE_SHEET_NAME || "",
       ...utmData
     };
 
     try {
-      const appsScriptUrl = import.meta.env.VITE_GOOGLEADS_APPS_SCRIPT_URL;
-      if (!appsScriptUrl) {
-        throw new Error("Google Apps Script URL is not configured. Please check environment variables.");
-      }
-
-      const response = await fetch(appsScriptUrl, {
+      const response = await fetch("/api/submit-lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        redirect: "follow"
+        body: JSON.stringify(payload)
       });
 
       if (!response.ok) {
         let errorMsg = "Submission failed";
         try {
-          const errText = await response.text();
-          // Try to parse as JSON first
-          if (errText) {
-            try {
-              const errData = JSON.parse(errText);
-              if (errData && errData.error) {
-                errorMsg = errData.error;
-              } else {
-                errorMsg = errText;
-              }
-            } catch (_) {
-              errorMsg = errText;
-            }
+          const errData = await response.json();
+          if (errData && errData.error) {
+            errorMsg = errData.error;
           }
         } catch (_) {
-          // If all else fails, use status
-          errorMsg = `Server error (${response.status})`;
+          const errText = await response.text();
+          if (errText) errorMsg = errText;
         }
         throw new Error(errorMsg);
       }
@@ -306,6 +288,9 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
               alt="Google" 
               className="h-2.5 w-2.5 brightness-0 invert" 
               referrerPolicy="no-referrer"
+              width="10"
+              height="10"
+              loading="eager"
             />
             <div className="flex gap-0.5">
               {[1, 2, 3, 4, 5].map(i => <Star key={i} className="h-2 w-2 fill-[#FFC107] text-[#FFC107]" />)}
@@ -364,6 +349,9 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
                           src={COUNTRIES.find(c => c.code === phoneCode)?.flag} 
                           alt="Flag" 
                           className="w-6 h-4 object-cover rounded-sm ring-1 ring-black/5" 
+                          width="24"
+                          height="16"
+                          loading="eager"
                         />
                         <ChevronDown className="h-3 w-3 text-slate-400 group-hover/trigger:text-primary transition-colors" />
                       </Button>
@@ -384,7 +372,14 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
                                 className="gap-3 py-2 cursor-pointer"
                               >
                                 <div className="flex items-center gap-3 flex-1">
-                                  <img src={c.flag} alt={c.iso} className="w-5 h-3.5 object-cover rounded-sm shadow-sm" />
+                                  <img 
+                                    src={c.flag} 
+                                    alt={c.iso} 
+                                    className="w-5 h-3.5 object-cover rounded-sm shadow-sm" 
+                                    width="20"
+                                    height="14"
+                                    loading="lazy"
+                                  />
                                   <span className="font-bold text-sm text-slate-700 min-w-[40px]">{c.code}</span>
                                   <span className="text-xs text-slate-500 font-medium truncate">{c.name}</span>
                                 </div>
@@ -491,6 +486,7 @@ export default function App() {
   const [selectedPositions, setSelectedPositions] = React.useState<string[]>([]);
   const [isHiringModalOpen, setIsHiringModalOpen] = React.useState(false);
   const [activeSlide, setActiveSlide] = React.useState(0);
+  const [showVideo, setShowVideo] = React.useState(false);
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
   const handleScroll = () => {
@@ -545,6 +541,9 @@ export default function App() {
                   alt="Maukerja" 
                   className="h-10 w-auto"
                   referrerPolicy="no-referrer"
+                  width="168"
+                  height="40"
+                  loading="eager"
                 />
               </a>
               
@@ -623,6 +622,9 @@ export default function App() {
                     alt="Google" 
                     className="h-4 w-4" 
                     referrerPolicy="no-referrer"
+                    width="16"
+                    height="16"
+                    loading="eager"
                   />
                   <div className="flex gap-0.5">
                     {[1, 2, 3, 4, 5].map(i => <Star key={i} className="h-3 w-3 fill-[#FFC107] text-[#FFC107]" />)}
@@ -654,6 +656,10 @@ export default function App() {
                 alt="Marketing Talent" 
                 className="w-full max-w-[540px] h-auto object-contain transition-transform duration-700 hover:scale-[1.02] order-2 lg:order-1"
                 referrerPolicy="no-referrer"
+                width="540"
+                height="518"
+                fetchPriority="high"
+                loading="eager"
               />
 
               {/* Infinite Logo Marquee integrated within the column */}
@@ -688,6 +694,9 @@ export default function App() {
                         alt={logo.name} 
                         className={`${logo.isBig ? "h-10 md:h-16" : "h-9 md:h-14"} w-auto object-contain`}
                         referrerPolicy="no-referrer"
+                        width={logo.isBig ? 120 : 90}
+                        height={logo.isBig ? 64 : 56}
+                        loading="eager"
                       />
                     </div>
                   ))}
@@ -782,6 +791,9 @@ export default function App() {
                 alt="Google" 
                 className="h-5 w-5" 
                 referrerPolicy="no-referrer"
+                width="20"
+                height="20"
+                loading="lazy"
               />
               <div className="flex gap-0.5">
                 {[1, 2, 3, 4, 5].map(i => <Star key={i} className="h-5 w-5 fill-[#FFC107] text-[#FFC107]" />)}
@@ -817,7 +829,14 @@ export default function App() {
                   <Card className="h-full border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 rounded-[1.5rem] bg-white group/card">
                     <CardContent className="p-8 flex flex-col h-full">
                       <div className="flex items-center gap-6 mb-6">
-                        <img src={t.img} alt={t.company} className="h-16 w-auto object-contain shrink-0" />
+                        <img 
+                          src={t.img} 
+                          alt={t.company} 
+                          className="h-16 w-auto object-contain shrink-0" 
+                          width="64"
+                          height="64"
+                          loading="lazy"
+                        />
                         <div>
                           <h4 className="font-black text-[#1A1A1A] tracking-tight text-base uppercase">{t.company}</h4>
                           <p className="text-xs font-bold text-slate-400">{t.name}</p>
@@ -869,17 +888,38 @@ export default function App() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="mt-16 max-w-4xl mx-auto rounded-[2.5rem] overflow-hidden shadow-2xl shadow-slate-200/60 border-8 border-white bg-white"
             >
-              <div className="aspect-video">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/DHLsrfdWvUs"
-                  title="Maukerja Success Story"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="w-full h-full"
-                ></iframe>
+              <div className="aspect-video relative bg-slate-900 overflow-hidden">
+                {showVideo ? (
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src="https://www.youtube.com/embed/DHLsrfdWvUs?autoplay=1"
+                    title="Maukerja Success Story"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="w-full h-full"
+                  ></iframe>
+                ) : (
+                  <button 
+                    onClick={() => setShowVideo(true)}
+                    className="absolute inset-0 w-full h-full flex items-center justify-center cursor-pointer group"
+                  >
+                    <img 
+                      src="https://img.youtube.com/vi/DHLsrfdWvUs/maxresdefault.jpg" 
+                      alt="Maukerja Success Story video thumbnail overlay" 
+                      className="w-full h-full object-cover brightness-95 group-hover:brightness-90 transition-all duration-300"
+                      width="896"
+                      height="504"
+                      loading="lazy"
+                    />
+                    <div className="absolute w-20 h-20 bg-primary/95 text-white rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 active:scale-95 transition-all duration-300 group-hover:bg-[#FF0000]">
+                      <svg className="w-8 h-8 fill-current ml-1" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </button>
+                )}
               </div>
             </motion.div>
           </div>
@@ -927,6 +967,9 @@ export default function App() {
                     alt={card.stat} 
                     className="h-36 md:h-44 w-auto object-contain" 
                     referrerPolicy="no-referrer" 
+                    width="176"
+                    height="176"
+                    loading="lazy"
                   />
                 </div>
                 <h3 className="text-2xl font-black mb-4 text-[#334155] leading-tight">{card.stat}</h3>
@@ -1098,7 +1141,15 @@ export default function App() {
                             { name: "Google", url: "https://files.ajobthing.com/assets/landing/ico-google.svg" }
                           ].map((logo, idx) => (
                             <div key={idx} className="w-[22px] h-[22px] sm:w-[30px] sm:h-[30px] rounded-full bg-white border border-slate-100 flex items-center justify-center shadow-sm overflow-hidden p-0.5 hover:scale-110 hover:shadow transition-all duration-300 animate-fade-in">
-                              <img src={logo.url} alt={logo.name} className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                              <img 
+                                src={logo.url} 
+                                alt={logo.name} 
+                                className="w-full h-full object-contain" 
+                                referrerPolicy="no-referrer" 
+                                width="30"
+                                height="30"
+                                loading="lazy"
+                              />
                             </div>
                           ))}
                         </div>
@@ -1158,6 +1209,9 @@ export default function App() {
                     alt={sol.title} 
                     className={`w-full h-full ${sol.title === "Social Media Presence" ? "object-contain p-4" : "object-cover group-hover:scale-110"} transition-transform duration-700`} 
                     referrerPolicy="no-referrer"
+                    width="540"
+                    height="338"
+                    loading="lazy"
                   />
                 </div>
                 <CardContent className="p-10">
@@ -1310,6 +1364,9 @@ export default function App() {
               alt="Hiring Solution" 
               className="h-64 w-auto object-contain"
               referrerPolicy="no-referrer"
+              width="341"
+              height="256"
+              loading="lazy"
             />
           </div>
           <div className="text-center md:text-left order-1 md:order-2">
@@ -1397,13 +1454,34 @@ export default function App() {
               <h4 className="font-black text-sm mb-6 text-[#1A1A1A]">Download Our Apps</h4>
               <div className="space-y-3">
                 <a href="https://play.google.com/store/apps/details?id=my.maukerja.applicant" target="_blank" rel="noopener noreferrer" className="block transition-transform hover:scale-105">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-[42px] w-auto" />
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                    alt="Google Play" 
+                    className="h-[42px] w-auto" 
+                    width="135"
+                    height="42"
+                    loading="lazy"
+                  />
                 </a>
                 <a href="https://apps.apple.com/my/app/maukerja-malaysia-job-search/id1383614538" target="_blank" rel="noopener noreferrer" className="block transition-transform hover:scale-105">
-                  <img src="https://www.maukerja.my/mkt/images/appstore.png" alt="App Store" className="h-[40px] w-auto" />
+                  <img 
+                    src="https://www.maukerja.my/mkt/images/appstore.png" 
+                    alt="App Store" 
+                    className="h-[40px] w-auto" 
+                    width="135"
+                    height="40"
+                    loading="lazy"
+                  />
                 </a>
                 <a href="https://news.google.com/publications/CAAqBwgKMPiIoQswkJO5Aw?hl=en-ID&gl=ID&ceid=ID:en" target="_blank" rel="noopener noreferrer" className="block mt-4 transition-transform hover:scale-105">
-                  <img src="https://www.maukerja.my/mkt/images/googlenews.png" alt="Google News" className="h-8 w-auto" />
+                  <img 
+                    src="https://www.maukerja.my/mkt/images/googlenews.png" 
+                    alt="Google News" 
+                    className="h-8 w-auto" 
+                    width="142"
+                    height="32"
+                    loading="lazy"
+                  />
                 </a>
               </div>
             </div>
