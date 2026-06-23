@@ -192,26 +192,44 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
       phone_number: `${phoneCode}${phoneNumber}`,
       headcount: formData.headcount,
       hiring_timeline: formData.hiring_timeline,
+      sheet_id: import.meta.env.VITE_SHEET_ID || "",
+      sheet_name: import.meta.env.VITE_SHEET_NAME || "",
       ...utmData
     };
 
     try {
-      const response = await fetch("/api/submit-lead", {
+      const appsScriptUrl = import.meta.env.VITE_GOOGLEADS_APPS_SCRIPT_URL;
+      if (!appsScriptUrl) {
+        throw new Error("Google Apps Script URL is not configured. Please check environment variables.");
+      }
+
+      const response = await fetch(appsScriptUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        redirect: "follow"
       });
 
       if (!response.ok) {
         let errorMsg = "Submission failed";
         try {
-          const errData = await response.json();
-          if (errData && errData.error) {
-            errorMsg = errData.error;
+          const errText = await response.text();
+          // Try to parse as JSON first
+          if (errText) {
+            try {
+              const errData = JSON.parse(errText);
+              if (errData && errData.error) {
+                errorMsg = errData.error;
+              } else {
+                errorMsg = errText;
+              }
+            } catch (_) {
+              errorMsg = errText;
+            }
           }
         } catch (_) {
-          const errText = await response.text();
-          if (errText) errorMsg = errText;
+          // If all else fails, use status
+          errorMsg = `Server error (${response.status})`;
         }
         throw new Error(errorMsg);
       }
