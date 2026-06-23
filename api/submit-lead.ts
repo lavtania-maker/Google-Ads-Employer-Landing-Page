@@ -46,14 +46,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    // Safely parse body if it is still a string
-    let parsedBody = req.body || {};
+    // Safely parse body using a dual-layer approach (pre-parsed OR streamed raw chunk)
+    let parsedBody = req.body;
+    if (!parsedBody) {
+      try {
+        const buffers = [];
+        for await (const chunk of req) {
+          buffers.push(chunk);
+        }
+        const data = Buffer.concat(buffers).toString();
+        if (data) {
+          parsedBody = JSON.parse(data);
+        }
+      } catch (streamErr) {
+        console.error("Could not parse request body from stream:", streamErr);
+      }
+    }
+
     if (typeof parsedBody === "string") {
       try {
         parsedBody = JSON.parse(parsedBody);
       } catch (parseErr) {
         console.error("Error parsing string request body:", parseErr);
       }
+    }
+
+    if (!parsedBody) {
+      parsedBody = {};
     }
 
     const payload = {
