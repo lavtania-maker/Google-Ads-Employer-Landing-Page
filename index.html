@@ -24,15 +24,19 @@
     <link rel="preconnect" href="https://images.prismic.io" />
     <link rel="preconnect" href="https://www.maukerja.my" />
     <link rel="preconnect" href="https://www.ajobthing.com" />
-    <link rel="preload" href="https://images.prismic.io/maukerja/agKfiaYofJOwHGsx_marketingretailandsalesstaff.png?auto=compress,format&fm=webp&q=80&w=540" as="image" />
+    <link rel="preload" href="https://images.prismic.io/maukerja/agKfiaYofJOwHGsx_marketingretailandsalesstaff.png?auto=compress,format&amp;fm=webp&amp;q=80&amp;w=540" as="image" />
 
     <!-- Favicon configurations -->
     <link rel="icon" type="image/jpeg" href="https://s3-ap-southeast-1.amazonaws.com/ricebowl/images/marketing-campaign/image-a1eafa87-cd38-4a27-bda1-c740cab4b30a.jpg" />
     <link rel="shortcut icon" href="https://s3-ap-southeast-1.amazonaws.com/ricebowl/images/marketing-campaign/image-a1eafa87-cd38-4a27-bda1-c740cab4b30a.jpg" />
     <link rel="apple-touch-icon" href="https://s3-ap-southeast-1.amazonaws.com/ricebowl/images/marketing-campaign/image-a1eafa87-cd38-4a27-bda1-c740cab4b30a.jpg" />
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
+    <!-- Google Fonts Async Render Optimization (Non-Render-Blocking) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet" />
+    </noscript>
   </head>
   <body>
     <div id="root"></div>

@@ -67,6 +67,12 @@ async function startServer() {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
+      // If the request is for a static file (e.g., contains a dot like .js, .css, .png, etc.),
+      // return a clean 404 instead of falling back to serving index.html.
+      // This prevents "Unexpected token '<'" browser JS exceptions when assets are cached/desynced.
+      if (req.path.includes('.') || req.path.startsWith('/assets/')) {
+        return res.status(404).send('Not Found');
+      }
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }
