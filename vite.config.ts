@@ -9,6 +9,9 @@ export default defineConfig(({mode}) => {
     plugins: [react(), tailwindcss()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+      'import.meta.env.VITE_GOOGLEADS_APPS_SCRIPT_URL': JSON.stringify(env.GOOGLEADS_APPS_SCRIPT_URL),
+      'import.meta.env.VITE_SHEET_ID': JSON.stringify(env.SHEET_ID),
+      'import.meta.env.VITE_SHEET_NAME': JSON.stringify(env.SHEET_NAME),
     },
     resolve: {
       alias: {
