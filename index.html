@@ -30,25 +30,203 @@
   <body>
     <div id="root"></div>
     <noscript>
-      <div style="padding: 20px; font-family: sans-serif;">
-        <h1>Post a Job and Hire Within 72 Hours</h1>
-        <p>Maukerja by AJobThing helps you find the best talent for your business. Trusted by over 15,000+ top employers.</p>
-        
-        <h2>Why Hire Top Talent on Maukerja by AJobThing</h2>
-        <ul>
-          <li>Post Job and Get Recommended Talent Instantly</li>
-          <li>Over 5 million candidate profiles</li>
-          <li>AI Instant Match</li>
-        </ul>
+      <style>
+        .ns-wrap { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1A1A1A; line-height: 1.6; margin: 0; background: #ffffff; }
+        .ns-wrap * { box-sizing: border-box; }
+        .ns-container { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+        .ns-header { background: #ED3554; padding: 14px 0; }
+        .ns-header .ns-container { display: flex; align-items: center; justify-content: space-between; }
+        .ns-logo { height: 38px; width: auto; }
+        .ns-btn { display: inline-block; background: #ED3554; color: #ffffff; font-weight: 800; text-decoration: none; padding: 14px 28px; border-radius: 14px; font-size: 16px; }
+        .ns-btn-white { background: #ffffff; color: #ED3554; border: 1px solid rgba(255,255,255,0.4); padding: 10px 18px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .ns-section { padding: 48px 0; }
+        .ns-section.alt { background: #F8F9FA; }
+        .ns-h1 { font-size: 34px; font-weight: 900; line-height: 1.25; margin: 0 0 16px; color: #0f172a; }
+        .ns-h1 .accent { color: #ED3554; font-style: italic; }
+        .ns-h2 { font-size: 28px; font-weight: 900; line-height: 1.3; margin: 0 0 12px; text-align: center; }
+        .ns-h2 .accent { color: #ED3554; }
+        .ns-rule { height: 5px; width: 90px; background: #ED3554; border-radius: 999px; margin: 18px auto 32px; }
+        .ns-lead { font-size: 17px; color: #555555; text-align: center; max-width: 720px; margin: 0 auto 24px; }
+        .ns-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+        .ns-tag { display: inline-block; border: 1px solid #e2e8f0; background: #fff; color: #374B5C; font-weight: 800; font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; padding: 6px 12px; border-radius: 8px; }
+        .ns-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 768px) { .ns-grid-3 { grid-template-columns: repeat(3, 1fr); } .ns-grid-2 { grid-template-columns: repeat(2, 1fr); } .ns-h1 { font-size: 42px; } .ns-h2 { font-size: 38px; } }
+        .ns-card { border: 1px solid #eef0f3; border-radius: 24px; padding: 28px; background: #fff; box-shadow: 0 20px 40px -24px rgba(0,0,0,0.08); }
+        .ns-card h3 { font-size: 19px; font-weight: 900; margin: 0 0 10px; }
+        .ns-card p { margin: 0; color: #555555; }
+        .ns-step-num { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 14px; background: #ED3554; color: #fff; font-weight: 900; margin-bottom: 12px; }
+        .ns-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #eef0f3; border-radius: 16px; overflow: hidden; }
+        .ns-table th, .ns-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        .ns-table th { font-weight: 900; }
+        .ns-table th.mk, .ns-table td.mk { text-align: center; color: #ED3554; }
+        .ns-table td.other { text-align: center; color: #64748B; }
+        .ns-faq { background: #fff; border-radius: 18px; padding: 20px 24px; margin-bottom: 14px; border: 1px solid #eef0f3; }
+        .ns-faq h3 { font-size: 16px; font-weight: 900; margin: 0 0 8px; }
+        .ns-faq p { margin: 0; color: #555555; font-size: 14px; }
+        .ns-testi { background: #fff; border: 1px solid #eef0f3; border-radius: 18px; padding: 24px; }
+        .ns-testi .who { font-weight: 900; text-transform: uppercase; font-size: 14px; margin: 0; }
+        .ns-testi .role { font-size: 12px; color: #94a3b8; font-weight: 700; margin: 0 0 12px; }
+        .ns-testi p.q { font-size: 14px; color: #555555; margin: 0; }
+        .ns-cta-band { background: #FFF5F6; border-radius: 28px; padding: 40px 28px; text-align: center; }
+        .ns-cta-band h3 { font-size: 26px; font-weight: 900; margin: 0 0 10px; }
+        .ns-cta-band p { color: #555555; margin: 0 0 20px; }
+        .ns-center { text-align: center; }
+        .ns-mt { margin-top: 32px; }
+        .ns-footer { background: #fff; border-top: 1px solid #eef0f3; padding: 32px 0; text-align: center; color: #94a3b8; font-size: 13px; }
+        .ns-footer a { color: #ED3554; }
+        .ns-rating { text-align: center; font-weight: 800; color: #0f172a; margin: 12px 0 0; }
+        .ns-rating .stars { color: #FFC107; letter-spacing: 2px; }
+      </style>
+      <div class="ns-wrap">
+        <header class="ns-header">
+          <div class="ns-container">
+            <a href="https://www.maukerja.my/" target="_blank" rel="noopener noreferrer">
+              <img class="ns-logo" src="https://www.maukerja.my/mkt/images/logo-mk.png" alt="Maukerja by AJobThing" referrerpolicy="no-referrer" />
+            </a>
+            <a class="ns-btn ns-btn-white" href="https://www.ajobthing.com/register?utm_source=maukerjaLiteWebsite&utm_medium=noscript" target="_blank" rel="noopener noreferrer">Start Hiring Now</a>
+          </div>
+        </header>
 
-        <h2>How to Hire</h2>
-        <ol>
-          <li>Complete Your Company Profile</li>
-          <li>Advertise Your Job Opening</li>
-          <li>Get Applications Instantly</li>
-        </ol>
+        <!-- HERO -->
+        <section class="ns-section">
+          <div class="ns-container">
+            <h1 class="ns-h1">Award-winning Recruitment Site: <span class="accent">Hire Within 72 Hours</span></h1>
+            <p style="font-size:11px;font-weight:800;color:#7C8CA1;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 6px;">Hiring for roles like:</p>
+            <div class="ns-tags">
+              <span class="ns-tag">Marketing Executive</span>
+              <span class="ns-tag">Live Host</span>
+              <span class="ns-tag">Content Creator</span>
+              <span class="ns-tag">Retail Manager</span>
+              <span class="ns-tag">Retail Assistant</span>
+              <span class="ns-tag">Cashier</span>
+            </div>
+            <a class="ns-btn" href="https://www.ajobthing.com/register?utm_source=maukerjaLiteWebsite&utm_medium=noscript" target="_blank" rel="noopener noreferrer">Start Hiring Now</a>
+            <p class="ns-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.9 Rating on Google Reviews</p>
+            <p style="text-align:center;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.15em;font-size:13px;margin-top:28px;">Trusted by Over 15,000+ Top Employers</p>
+          </div>
+        </section>
 
-        <p>Your next great talent is already here. Just waiting to be found.</p>
+        <!-- WHY HIRE -->
+        <section class="ns-section alt">
+          <div class="ns-container">
+            <h2 class="ns-h2">Why Hire Top Talent on <span class="accent">Maukerja by AJobThing</span></h2>
+            <div class="ns-rule"></div>
+            <div class="ns-grid ns-grid-3">
+              <div class="ns-card"><h3>Post Job and Get Recommended Talent Instantly</h3><p>Your job goes live and the right talent comes to you.</p></div>
+              <div class="ns-card"><h3>Chat Directly with Jobseeker</h3><p>Message candidates in-app and use templates to make hiring quick and easy.</p></div>
+              <div class="ns-card"><h3>Over 5 Million Candidate Profiles</h3><p>Your next great talent is already here. Just waiting to be found.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- WHY MAUKERJA -->
+        <section class="ns-section">
+          <div class="ns-container">
+            <h2 class="ns-h2">Why <span class="accent">Maukerja by AJobThing</span> Makes Hiring Easy</h2>
+            <div class="ns-rule"></div>
+            <div class="ns-grid ns-grid-3">
+              <div class="ns-card"><h3>Get 3x More Visibility</h3><p>Cross-publish your job ad on multiple job platforms to attract more candidates.</p></div>
+              <div class="ns-card"><h3>AI Instant Match</h3><p>Get matched with the right talent instantly.</p></div>
+              <div class="ns-card"><h3>Hire Faster with AI-Powered Solution</h3><p>Less effort and simplify your recruiting process to find top talents in just 72 hours!</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- COMPARISON -->
+        <section class="ns-section alt">
+          <div class="ns-container">
+            <h2 class="ns-h2">Why Choose <span class="accent">Maukerja</span> Over Other Job Platforms?</h2>
+            <div class="ns-rule"></div>
+            <table class="ns-table">
+              <thead>
+                <tr><th>&nbsp;</th><th class="mk">Maukerja</th><th class="other" style="color:#64748B;">Other Job Platforms</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Job Ad (Single job posting)</td><td class="mk">Yes &mdash; Instant hiring within 72 hours</td><td class="other">Yes</td></tr>
+                <tr><td>Job Ad (Unlimited job posting yearly)</td><td class="mk">Yes &mdash; Instant hiring within 72 hours</td><td class="other">Yes</td></tr>
+                <tr><td>Job Posting Durations</td><td class="mk">45 days</td><td class="other">30 days</td></tr>
+                <tr><td>English Job Posting Languages</td><td class="mk">Yes</td><td class="other">Yes</td></tr>
+                <tr><td>Mandarin Job Posting Languages</td><td class="mk">Yes</td><td class="other">No</td></tr>
+                <tr><td>Malay Job Posting Languages</td><td class="mk">Yes</td><td class="other">No</td></tr>
+                <tr><td>Posted to Multiple Platforms</td><td class="mk">Yes</td><td class="other">Limited</td></tr>
+              </tbody>
+            </table>
+            <div class="ns-center ns-mt">
+              <a class="ns-btn" href="https://www.ajobthing.com/register?utm_source=maukerjaLiteWebsite&utm_medium=noscript" target="_blank" rel="noopener noreferrer">Start Hiring Now</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- HIRING SOLUTIONS -->
+        <section class="ns-section">
+          <div class="ns-container">
+            <h2 class="ns-h2">Our Hiring Solution</h2>
+            <div class="ns-rule"></div>
+            <div class="ns-grid ns-grid-2">
+              <div class="ns-card"><h3>Personalized Employer Branding Profile</h3><p>Show off your company's unique culture to attract young and talented marketing people by matching your brand with your hiring plans.</p></div>
+              <div class="ns-card"><h3>Social Media Presence</h3><p>Let our creative team showcase your employer brand, making it easier for you to connect with and attract new marketing talents.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="ns-section alt">
+          <div class="ns-container">
+            <h2 class="ns-h2">Easy Hire in 3 Simple Steps</h2>
+            <div class="ns-rule"></div>
+            <div class="ns-grid ns-grid-3">
+              <div class="ns-card"><div class="ns-step-num">1</div><h3>Register on Our Platform</h3><p>Fill the form and verify that you're really an employer from your company.</p></div>
+              <div class="ns-card"><div class="ns-step-num">2</div><h3>Advertise Your Job Opening</h3><p>Follow our step-by-step instructions to craft an appealing job post.</p></div>
+              <div class="ns-card"><div class="ns-step-num">3</div><h3>Get Applications Instantly</h3><p>Get relevant candidates that match your job requirements with AI filtering.</p></div>
+            </div>
+            <div class="ns-center ns-mt">
+              <a class="ns-btn" href="https://www.ajobthing.com/register?utm_source=maukerjaLiteWebsite&utm_medium=noscript" target="_blank" rel="noopener noreferrer">Start Hiring</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- TESTIMONIALS -->
+        <section class="ns-section">
+          <div class="ns-container">
+            <h2 class="ns-h2">Real Results from Our Success Stories</h2>
+            <p class="ns-lead">HR teams across Malaysia have been hiring better, faster with Maukerja by AJobThing.</p>
+            <div class="ns-grid ns-grid-3">
+              <div class="ns-testi"><p class="who">Gibraltar BSN</p><p class="role">Mr Alvin &ndash; Team Head</p><p class="q">We have been working with AJobThing since 2018. The entire team is awesome and always provide relentless support and commitment towards our recruitment.</p></div>
+              <div class="ns-testi"><p class="who">Padini</p><p class="role">Ms Eunice &ndash; Senior HR Executive</p><p class="q">The response is very good&hellip; we get a lot of candidates, that's the reason we continue using SHOUTOUT.</p></div>
+              <div class="ns-testi"><p class="who">Foodpanda Malaysia</p><p class="role">Ms Suruthi &ndash; Recruiter</p><p class="q">AJobThing has always been accommodating. Using their platform has been an added advantage to our hiring.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="ns-section alt">
+          <div class="ns-container" style="max-width:760px;">
+            <h2 class="ns-h2">FAQs</h2>
+            <p class="ns-lead">Frequently asked questions from employers</p>
+            <div class="ns-faq"><h3>What is the pricing for Job Ads in Maukerja?</h3><p>Job Ads in Maukerja is a complimentary service for our existing customers, please contact your Account Manager, or reach out to 018-9666610 for further assistance.</p></div>
+            <div class="ns-faq"><h3>From where do these relevant candidates originate?</h3><p>Using AI technology, Maukerja by AJobThing provides instant access to applicants from Maukerja and Ricebowl Malaysia Job Portals who closely match your job criteria and are actively seeking employment.</p></div>
+            <div class="ns-faq"><h3>Can SMEs publish Job Ads in Maukerja?</h3><p>Job Ads are available to all businesses, including SMEs and large corporate companies, to swiftly fill their job positions.</p></div>
+            <div class="ns-faq"><h3>How do I get started?</h3><p>It's easy! Just register on our platform and our account manager will guide you through the process step by step. For assistance, contact us at 018-9666610.</p></div>
+          </div>
+        </section>
+
+        <!-- CONTACT CTA -->
+        <section class="ns-section">
+          <div class="ns-container">
+            <div class="ns-cta-band">
+              <h3>Need a personalized hiring solution? Contact us today!</h3>
+              <p>We can design solutions that fit your goals and budget.</p>
+              <a class="ns-btn" href="https://www.ajobthing.com/register?utm_source=maukerjaLiteWebsite&utm_medium=noscript" target="_blank" rel="noopener noreferrer">Schedule A Call</a>
+            </div>
+          </div>
+        </section>
+
+        <footer class="ns-footer">
+          <div class="ns-container">
+            <p><strong>JavaScript is disabled.</strong> You are viewing a simplified version of this page. To use the hiring form, please enable JavaScript, or <a href="https://www.ajobthing.com/register?utm_source=maukerjaLiteWebsite&utm_medium=noscript" target="_blank" rel="noopener noreferrer">register here</a> or call 018-9666610.</p>
+            <p>Copyright Agensi Pekerjaan Ajobthing Sdn Bhd | SSM (1036935K) | EA License Number JTKSM 232C</p>
+          </div>
+        </footer>
       </div>
     </noscript>
     <script type="module" src="/src/main.tsx"></script>
