@@ -652,7 +652,7 @@ export default function App() {
               className="lg:w-[48%] w-full flex flex-col items-center lg:items-end gap-12"
             >
               <img 
-                src="https://images.prismic.io/maukerja/agKfiaYofJOwHGsx_marketingretailandsalesstaff.png?auto=format,compress" 
+                src="https://images.prismic.io/maukerja/agKfiaYofJOwHGsx_marketingretailandsalesstaff.png?auto=compress,format&fm=webp&q=80&w=540" 
                 alt="Marketing Talent" 
                 className="w-full max-w-[540px] h-auto object-contain transition-transform duration-700 hover:scale-[1.02] order-2 lg:order-1"
                 referrerPolicy="no-referrer"
