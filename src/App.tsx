@@ -216,6 +216,11 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
         throw new Error(errorMsg);
       }
 
+      // Track successful hiring form submission in GA4
+      if (typeof window !== "undefined" && (window as any).gtag) {
+        (window as any).gtag("event", "submit_employer_lp");
+      }
+
       // Reset form state
       setFormData({
         fullName: "",
@@ -485,6 +490,14 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
 export default function App() {
   const [selectedPositions, setSelectedPositions] = React.useState<string[]>([]);
   const [isHiringModalOpen, setIsHiringModalOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    (window as any).openHiringModal = () => setIsHiringModalOpen(true);
+    return () => {
+      delete (window as any).openHiringModal;
+    };
+  }, []);
+
   const [activeSlide, setActiveSlide] = React.useState(0);
   const [showVideo, setShowVideo] = React.useState(false);
   const scrollRef = React.useRef<HTMLDivElement>(null);
@@ -1293,7 +1306,7 @@ export default function App() {
             <p className="text-lg text-[#555555] font-semibold italic">Frequently asked questions from employers</p>
           </div>
           
-          <Accordion type="single" collapsible className="w-full space-y-4">
+          <Accordion className="w-full space-y-4">
             {[
               {
                 q: "What is the pricing for Job Ads in Maukerja?",
