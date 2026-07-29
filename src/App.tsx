@@ -276,6 +276,21 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
               Join WhatsApp Channel
             </Button>
           </div>
+
+          <div className="mt-2 space-y-2">
+            <Separator className="bg-slate-100" />
+            <p className="text-sm font-medium text-slate-600 pt-2">
+              Don't have an AJobThing account?{" "}
+              <a 
+                href="https://www.ajobthing.com/register?utm_source=paid_job_ads_lp&utm_medium=landing_page&utm_campaign=register" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-primary hover:underline font-bold"
+              >
+                Register here
+              </a>
+            </p>
+          </div>
         </CardContent>
       </Card>
     );
