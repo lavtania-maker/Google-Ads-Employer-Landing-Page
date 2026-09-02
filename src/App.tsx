@@ -277,18 +277,16 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
             </Button>
           </div>
 
-          <div className="mt-2 space-y-2">
+          <div className="mt-6 space-y-4 text-sm text-slate-600">
             <Separator className="bg-slate-100" />
-            <p className="text-sm font-medium text-slate-600 pt-2">
-              Don't have an AJobThing account?{" "}
-              <a 
-                href="https://www.ajobthing.com/register?utm_source=paid_job_ads_lp&utm_medium=landing_page&utm_campaign=register" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-primary hover:underline font-bold"
-              >
-                Register here
-              </a>
+            <p>
+              Already have an AJobThing account?<br />
+              <a href="https://www.ajobthing.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">Log in to AJobThing</a> and post your job.
+            </p>
+            <p>
+              Don’t have an account yet?<br />
+              No worries! We can help you create one.<br />
+              <a href="https://api.whatsapp.com/send/?phone=601161825519&text=Hi+admin%2C+I+just+filled+out+the+form+on+Google+Ads+and+would+like+to+know+more+about+your+hiring+packages.+Could+you+share+more+info%3F&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">Contact us</a> on WhatsApp for help.
             </p>
           </div>
         </CardContent>
