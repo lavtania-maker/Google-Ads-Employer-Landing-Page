@@ -260,23 +260,6 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
             </p>
           </div>
           
-          <div className="bg-[#ED3554]/5 rounded-3xl p-6 md:p-8 border border-[#ED3554]/10 w-full mt-2 relative overflow-hidden group">
-            <div className="absolute -right-4 -top-4 opacity-5 group-hover:scale-110 transition-transform duration-700">
-               <Zap className="h-24 w-24 text-primary" />
-            </div>
-            <p className="text-[10px] font-black text-[#555555] uppercase tracking-[0.2em] mb-4">Special Promotion</p>
-            <p className="text-sm md:text-base font-bold text-slate-800 mb-6 leading-relaxed">
-              To see more promotion, you can join on AJobThing WhatsApp Channel here.
-            </p>
-            <Button 
-              className="w-full h-14 bg-[#25D366] hover:bg-[#128C7E] text-white font-black text-lg rounded-2xl shadow-xl shadow-green-500/20 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
-              onClick={() => window.open("https://whatsapp.com/channel/0029VadYIsPB4hdYGIn57X2H", "_blank")}
-            >
-              <MessageSquareText className="h-6 w-6" />
-              Join WhatsApp Channel
-            </Button>
-          </div>
-
           <div className="mt-6 space-y-4 text-sm text-slate-600">
             <Separator className="bg-slate-100" />
             <p>
