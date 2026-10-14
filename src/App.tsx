@@ -219,7 +219,7 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
             <p>
               Don’t have an account yet?<br />
               No worries! We can help you create one.<br />
-              <a href="https://api.whatsapp.com/send/?phone=601161825519&text=Hi+admin%2C+I+just+filled+out+the+form+on+Google+Ads+and+would+like+to+know+more+about+your+hiring+packages.+Could+you+share+more+info%3F&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">Contact us</a> on WhatsApp for help.
+              <a href="https://wa.me/60189666610?text=Hi+admin%2C+I+just+filled+out+the+form+on+Google+Ads+and+would+like+to+know+more+about+your+hiring+packages.+Could+you+share+more+info%3F" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">Contact us</a> on WhatsApp for help.
             </p>
           </div>
         </CardContent>
