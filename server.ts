@@ -1,4 +1,5 @@
 import express from "express";
+import http from "http";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import dotenv from "dotenv";
@@ -56,10 +57,19 @@ async function startServer() {
     }
   });
 
+  const httpServer = http.createServer(app);
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
+    // Attach HMR to the app's own HTTP server. By default Vite opens a separate
+    // WebSocket port (24678) that the HTTPS preview proxy can't reach, which
+    // causes "WebSocket closed without opened" errors in the browser.
+    const hmrEnabled = process.env.DISABLE_HMR !== "true";
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+        hmr: hmrEnabled ? { server: httpServer } : false,
+      },
       appType: "spa",
     });
     app.use(vite.middlewares);
@@ -77,7 +87,7 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
+  httpServer.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 }
