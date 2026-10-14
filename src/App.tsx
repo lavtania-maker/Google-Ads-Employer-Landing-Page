@@ -142,31 +142,34 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
       phone_number: `${phoneCode}${phoneNumber}`,
       headcount: formData.headcount,
       hiring_timeline: formData.hiring_timeline,
-      sheet_id: import.meta.env.VITE_SHEET_ID || "",
-      sheet_name: import.meta.env.VITE_SHEET_NAME || "",
       ...utmData
     };
 
     try {
-      const appsScriptUrl = import.meta.env.VITE_GOOGLEADS_APPS_SCRIPT_URL;
-      if (!appsScriptUrl) {
-        throw new Error("Google Apps Script URL is not configured. Please check environment variables.");
+      const response = await fetch("/api/submit-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        let errorMsg = "Submission failed";
+        try {
+          const errData = await response.json();
+          if (errData && errData.error) {
+            errorMsg = errData.error;
+          }
+        } catch (_) {
+          const errText = await response.text();
+          if (errText) errorMsg = errText;
+        }
+        throw new Error(errorMsg);
       }
 
-      // Google Apps Script web apps do not return CORS headers, and an
-      // "application/json" content type would trigger a CORS preflight that
-      // Apps Script cannot answer. Sending a "simple request" with a
-      // text/plain body and mode: "no-cors" lets the browser submit the data
-      // without being blocked. Apps Script still receives the raw JSON via
-      // e.postData.contents. The response is opaque, so we treat a completed
-      // request as success.
-      await fetch(appsScriptUrl, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload),
-        mode: "no-cors",
-        redirect: "follow"
-      });
+      // Track successful hiring form submission in GA4
+      if (typeof window !== "undefined" && (window as any).gtag) {
+        (window as any).gtag("event", "submit_employer_lp");
+      }
 
       // Reset form state
       setFormData({
@@ -207,21 +210,17 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
             </p>
           </div>
           
-          <div className="bg-[#ED3554]/5 rounded-3xl p-6 md:p-8 border border-[#ED3554]/10 w-full mt-2 relative overflow-hidden group">
-            <div className="absolute -right-4 -top-4 opacity-5 group-hover:scale-110 transition-transform duration-700">
-               <Zap className="h-24 w-24 text-primary" />
-            </div>
-            <p className="text-[10px] font-black text-[#555555] uppercase tracking-[0.2em] mb-4">Special Promotion</p>
-            <p className="text-sm md:text-base font-bold text-slate-800 mb-6 leading-relaxed">
-              To see more promotion, you can join on AJobThing WhatsApp Channel here.
+          <div className="mt-6 space-y-4 text-sm text-slate-600">
+            <Separator className="bg-slate-100" />
+            <p>
+              Already have an AJobThing account?<br />
+              <a href="https://www.ajobthing.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">Log in to AJobThing</a> and post your job.
             </p>
-            <Button 
-              className="w-full h-14 bg-[#25D366] hover:bg-[#128C7E] text-white font-black text-lg rounded-2xl shadow-xl shadow-green-500/20 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
-              onClick={() => window.open("https://whatsapp.com/channel/0029VadYIsPB4hdYGIn57X2H", "_blank")}
-            >
-              <MessageSquareText className="h-6 w-6" />
-              Join WhatsApp Channel
-            </Button>
+            <p>
+              Don’t have an account yet?<br />
+              No worries! We can help you create one.<br />
+              <a href="https://api.whatsapp.com/send/?phone=601161825519&text=Hi+admin%2C+I+just+filled+out+the+form+on+Google+Ads+and+would+like+to+know+more+about+your+hiring+packages.+Could+you+share+more+info%3F&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">Contact us</a> on WhatsApp for help.
+            </p>
           </div>
         </CardContent>
       </Card>
@@ -240,6 +239,9 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
               alt="Google" 
               className="h-2.5 w-2.5 brightness-0 invert" 
               referrerPolicy="no-referrer"
+              width="10"
+              height="10"
+              loading="eager"
             />
             <div className="flex gap-0.5">
               {[1, 2, 3, 4, 5].map(i => <Star key={i} className="h-2 w-2 fill-[#FFC107] text-[#FFC107]" />)}
@@ -298,6 +300,9 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
                           src={COUNTRIES.find(c => c.code === phoneCode)?.flag} 
                           alt="Flag" 
                           className="w-6 h-4 object-cover rounded-sm ring-1 ring-black/5" 
+                          width="24"
+                          height="16"
+                          loading="eager"
                         />
                         <ChevronDown className="h-3 w-3 text-slate-400 group-hover/trigger:text-primary transition-colors" />
                       </Button>
@@ -318,7 +323,14 @@ const HiringForm = ({ onSuccess, onScrollToTestimonials, isOpen }: HiringFormPro
                                 className="gap-3 py-2 cursor-pointer"
                               >
                                 <div className="flex items-center gap-3 flex-1">
-                                  <img src={c.flag} alt={c.iso} className="w-5 h-3.5 object-cover rounded-sm shadow-sm" />
+                                  <img 
+                                    src={c.flag} 
+                                    alt={c.iso} 
+                                    className="w-5 h-3.5 object-cover rounded-sm shadow-sm" 
+                                    width="20"
+                                    height="14"
+                                    loading="lazy"
+                                  />
                                   <span className="font-bold text-sm text-slate-700 min-w-[40px]">{c.code}</span>
                                   <span className="text-xs text-slate-500 font-medium truncate">{c.name}</span>
                                 </div>
@@ -425,6 +437,13 @@ export default function App() {
   const [isHiringModalOpen, setIsHiringModalOpen] = React.useState(false);
   const openForm = () => setIsHiringModalOpen(true);
 
+  React.useEffect(() => {
+    (window as any).openHiringModal = () => setIsHiringModalOpen(true);
+    return () => {
+      delete (window as any).openHiringModal;
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-white font-sans text-[#1A1A1A] overflow-x-hidden selection:bg-primary/20 selection:text-primary">
       <header className="fixed top-0 left-0 right-0 z-[100] w-full shadow-sm shadow-slate-100/50">
@@ -447,6 +466,9 @@ export default function App() {
                   alt="Maukerja" 
                   className="h-10 w-auto"
                   referrerPolicy="no-referrer"
+                  width="168"
+                  height="40"
+                  loading="eager"
                 />
               </a>
               
@@ -561,13 +583,34 @@ export default function App() {
               <h4 className="font-black text-sm mb-6 text-[#1A1A1A]">Download Our Apps</h4>
               <div className="space-y-3">
                 <a href="https://play.google.com/store/apps/details?id=my.maukerja.applicant" target="_blank" rel="noopener noreferrer" className="block transition-transform hover:scale-105">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-[42px] w-auto" />
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                    alt="Google Play" 
+                    className="h-[42px] w-auto" 
+                    width="135"
+                    height="42"
+                    loading="lazy"
+                  />
                 </a>
                 <a href="https://apps.apple.com/my/app/maukerja-malaysia-job-search/id1383614538" target="_blank" rel="noopener noreferrer" className="block transition-transform hover:scale-105">
-                  <img src="https://www.maukerja.my/mkt/images/appstore.png" alt="App Store" className="h-[40px] w-auto" />
+                  <img 
+                    src="https://www.maukerja.my/mkt/images/appstore.png" 
+                    alt="App Store" 
+                    className="h-[40px] w-auto" 
+                    width="135"
+                    height="40"
+                    loading="lazy"
+                  />
                 </a>
                 <a href="https://news.google.com/publications/CAAqBwgKMPiIoQswkJO5Aw?hl=en-ID&gl=ID&ceid=ID:en" target="_blank" rel="noopener noreferrer" className="block mt-4 transition-transform hover:scale-105">
-                  <img src="https://www.maukerja.my/mkt/images/googlenews.png" alt="Google News" className="h-8 w-auto" />
+                  <img 
+                    src="https://www.maukerja.my/mkt/images/googlenews.png" 
+                    alt="Google News" 
+                    className="h-8 w-auto" 
+                    width="142"
+                    height="32"
+                    loading="lazy"
+                  />
                 </a>
               </div>
             </div>

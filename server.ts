@@ -1,5 +1,4 @@
 import express from "express";
-import { createServer as createHttpServer } from "http";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import dotenv from "dotenv";
@@ -8,7 +7,7 @@ dotenv.config();
 
 async function startServer() {
   const app = express();
-  const PORT = Number(process.env.PORT) || 3000;
+  const PORT = 3000;
 
   // Middleware to parse JSON
   app.use(express.json());
@@ -33,8 +32,8 @@ async function startServer() {
       };
 
       console.log("Submitting to Apps Script:", scriptUrl);
-      console.log("Payload summary:", {
-        email: payload.email,
+      console.log("Payload summary:", { 
+        email: payload.email, 
         sheet_id: sheetId ? "present" : "MISSING",
         sheet_name: sheetName ? "present" : "MISSING"
       });
@@ -57,19 +56,10 @@ async function startServer() {
     }
   });
 
-  // Create an explicit HTTP server so Vite's HMR can attach to it
-  // instead of opening a separate WebSocket port (which caused
-  // "Port 24678 is already in use" crashes on restart).
-  const httpServer = createHttpServer(app);
-
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
-      server: {
-        middlewareMode: true,
-        // Share the existing HTTP server for HMR websocket connections.
-        hmr: { server: httpServer },
-      },
+      server: { middlewareMode: true },
       appType: "spa",
     });
     app.use(vite.middlewares);
@@ -77,47 +67,19 @@ async function startServer() {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
+      // If the request is for a static file (e.g., contains a dot like .js, .css, .png, etc.),
+      // return a clean 404 instead of falling back to serving index.html.
+      // This prevents "Unexpected token '<'" browser JS exceptions when assets are cached/desynced.
+      if (req.path.includes('.') || req.path.startsWith('/assets/')) {
+        return res.status(404).send('Not Found');
+      }
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }
 
-  // Gracefully retry if the port is briefly still held by a previous
-  // process during a restart (avoids fatal EADDRINUSE crashes).
-  let retries = 0;
-  const MAX_RETRIES = 10;
-
-  const listen = () => {
-    httpServer.listen(PORT, "0.0.0.0", () => {
-      console.log(`Server running on http://localhost:${PORT}`);
-    });
-  };
-
-  httpServer.on("error", (err: NodeJS.ErrnoException) => {
-    if (err.code === "EADDRINUSE" && retries < MAX_RETRIES) {
-      retries += 1;
-      console.warn(
-        `Port ${PORT} in use, retrying (${retries}/${MAX_RETRIES})...`
-      );
-      setTimeout(() => {
-        httpServer.close();
-        listen();
-      }, 500);
-    } else {
-      console.error("Server error:", err);
-      process.exit(1);
-    }
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on http://localhost:${PORT}`);
   });
-
-  // Shut down cleanly on restart signals so the port is released quickly.
-  const shutdown = () => {
-    httpServer.close(() => process.exit(0));
-    // Force-exit if close hangs.
-    setTimeout(() => process.exit(0), 1000);
-  };
-  process.on("SIGTERM", shutdown);
-  process.on("SIGINT", shutdown);
-
-  listen();
 }
 
 startServer();

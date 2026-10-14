@@ -67,7 +67,7 @@ export function Faq() {
     <section className="py-20 bg-[#F8F9FA]">
       <div className="max-w-[1100px] mx-auto px-5">
         <SectionHeading title="FAQs" subtitle="Frequently asked questions from employers" />
-        <Accordion type="single" collapsible defaultValue="faq-0" className="max-w-[780px] mx-auto mt-10 flex flex-col gap-3">
+        <Accordion defaultValue={["faq-0"]} className="max-w-[780px] mx-auto mt-10 flex flex-col gap-3">
           {FAQS.map((f, i) => (
             <AccordionItem
               key={f.q}
