@@ -51,7 +51,7 @@ export function SuccessStories() {
         />
 
         <a
-          href="https://www.google.com/search?q=ajobthing+malaysia#lrd=0x31cc4986cfea123b:0xf231fba79e701aaf,1,,,,"
+          href="https://www.google.com/search?kgmid=/g/11bymx0j2z&hl=en-ID&q=AJobThing+-+Your+Ultimate+Recruitment+%26+Hiring+Solution&shem=epsd1,esd2e,ltae,rimspwouoe,sdpie&shndl=30&source=sh/x/loc/osrp/m5/1&kgs=e2b38152e6c48b66&utm_source=epsd1,esd2e,ltae,rimspwouoe,sdpie,sh/x/loc/osrp/m5/1"
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-wrap items-center justify-center gap-3 bg-white rounded-[18px] md:rounded-full shadow-[0_6px_18px_-10px_rgba(0,0,0,0.25)] px-[22px] py-2.5 w-fit max-w-full mx-auto mt-6 text-xs text-center"

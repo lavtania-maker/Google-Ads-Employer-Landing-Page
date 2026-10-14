@@ -35,7 +35,7 @@ export function Hero({ onCta }: { onCta: () => void }) {
             </span>
             <b className="font-bold">4.9 RATING</b>
             <a
-              href="https://www.google.com/search?q=ajobthing+malaysia#lrd=0x31cc4986cfea123b:0xf231fba79e701aaf,1,,,,"
+              href="https://www.google.com/search?kgmid=/g/11bymx0j2z&hl=en-ID&q=AJobThing+-+Your+Ultimate+Recruitment+%26+Hiring+Solution&shem=epsd1,esd2e,ltae,rimspwouoe,sdpie&shndl=30&source=sh/x/loc/osrp/m5/1&kgs=e2b38152e6c48b66&utm_source=epsd1,esd2e,ltae,rimspwouoe,sdpie,sh/x/loc/osrp/m5/1"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#555555] font-semibold hover:text-primary transition-colors"
