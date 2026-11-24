@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/enterprise", "destination": "/api/enterprise" },
+    { "source": "/enterprise/thank-you", "destination": "/api/enterprise-thank-you" }
+  ]
+}

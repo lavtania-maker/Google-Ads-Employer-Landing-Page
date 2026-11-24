@@ -3,6 +3,8 @@ import { createServer as createHttpServer } from "http";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import dotenv from "dotenv";
+import { GET as enterpriseGET } from "./app/enterprise/route";
+import { GET as enterpriseThankYouGET } from "./app/enterprise/thank-you/route";
 
 dotenv.config();
 
@@ -57,6 +59,17 @@ async function startServer() {
       res.status(500).json({ error: "Failed to submit lead" });
     }
   });
+
+  // Full HTML pages exported as Next.js-style route handlers in app/enterprise
+  const sendRouteResponse = async (response: Response, res: express.Response) => {
+    res.status(response.status);
+    response.headers.forEach((value, key) => res.setHeader(key, value));
+    res.send(await response.text());
+  };
+  app.get(["/enterprise", "/enterprise/"], (_req, res) => sendRouteResponse(enterpriseGET(), res));
+  app.get(["/enterprise/thank-you", "/enterprise/thank-you/"], (_req, res) =>
+    sendRouteResponse(enterpriseThankYouGET(), res)
+  );
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
