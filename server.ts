@@ -1,4 +1,5 @@
 import express from "express";
+import { createServer as createHttpServer } from "http";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import dotenv from "dotenv";
@@ -7,6 +8,7 @@ dotenv.config();
 
 async function startServer() {
   const app = express();
+  const httpServer = createHttpServer(app);
   const PORT = 3000;
 
   // Middleware to parse JSON
@@ -59,7 +61,11 @@ async function startServer() {
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+        // Share the app's HTTP server so the HMR WebSocket uses the same port the preview proxy exposes.
+        hmr: process.env.DISABLE_HMR === "true" ? false : { server: httpServer },
+      },
       appType: "spa",
     });
     app.use(vite.middlewares);
@@ -77,7 +83,7 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
+  httpServer.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 }
