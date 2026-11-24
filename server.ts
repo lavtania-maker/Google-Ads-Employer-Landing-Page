@@ -1,12 +1,11 @@
+// Must stay first: route modules read env vars at import time.
+import "./load-env";
 import express from "express";
 import { createServer as createHttpServer } from "http";
 import { createServer as createViteServer } from "vite";
 import path from "path";
-import dotenv from "dotenv";
 import { GET as enterpriseGET } from "./app/enterprise/route";
 import { GET as enterpriseThankYouGET } from "./app/enterprise/thank-you/route";
-
-dotenv.config();
 
 async function startServer() {
   const app = express();
