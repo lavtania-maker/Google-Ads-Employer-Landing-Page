@@ -460,30 +460,30 @@ export default function App() {
         <nav className="bg-[#ED3554]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-14 md:h-16 items-center">
-              <div className="flex items-center gap-3 md:gap-4 min-w-0">
+              <div className="flex items-center shrink-0">
                 <a href="https://www.maukerja.my/" target="_blank" rel="noopener noreferrer" className="flex items-center shrink-0 hover:opacity-90 transition-opacity">
                   <img 
                     src="https://www.maukerja.my/mkt/images/logo-mk.png" 
                     alt="Maukerja" 
-                    className="h-8 md:h-10 w-auto"
+                    className="h-6 sm:h-8 md:h-10 w-auto"
                     referrerPolicy="no-referrer"
                     width="168"
                     height="40"
                     loading="eager"
                   />
                 </a>
-                <a
-                  href="/enterprise"
-                  className="whitespace-nowrap rounded-full bg-white px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs font-black uppercase tracking-wider md:tracking-widest text-[#ED3554] hover:bg-white/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#ED3554]"
-                >
-                  Multi-Outlet Hiring
-                </a>
               </div>
               
-              <div className="flex items-center">
+              <div className="flex items-center gap-1 sm:gap-2 md:gap-4">
+                <a
+                  href="/enterprise"
+                  className="whitespace-nowrap rounded-full bg-white px-3 py-1.5 md:px-5 md:py-2 text-[11px] md:text-sm font-bold text-[#ED3554] hover:bg-white/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#ED3554]"
+                >
+                  <span className="hidden sm:inline">Hire in </span>Multiple Locations
+                </a>
                 <Button 
                   variant="ghost" 
-                  className="text-xs font-black text-white uppercase tracking-widest hover:bg-white/10 rounded-xl" 
+                  className="px-2 sm:px-4 text-[11px] sm:text-xs font-black text-white uppercase tracking-wide sm:tracking-widest hover:bg-white/10 rounded-xl" 
                   onClick={openForm}
                 >
                   Post a Job Now
