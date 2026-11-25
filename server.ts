@@ -1,12 +1,15 @@
+// Must stay first: route modules read env vars at import time.
+import "./load-env";
 import express from "express";
+import { createServer as createHttpServer } from "http";
 import { createServer as createViteServer } from "vite";
 import path from "path";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { GET as enterpriseGET } from "./app/enterprise/route";
+import { GET as enterpriseThankYouGET } from "./app/enterprise/thank-you/route";
 
 async function startServer() {
   const app = express();
+  const httpServer = createHttpServer(app);
   const PORT = 3000;
 
   // Middleware to parse JSON
@@ -56,10 +59,25 @@ async function startServer() {
     }
   });
 
+  // Full HTML pages exported as Next.js-style route handlers in app/enterprise
+  const sendRouteResponse = async (response: Response, res: express.Response) => {
+    res.status(response.status);
+    response.headers.forEach((value, key) => res.setHeader(key, value));
+    res.send(await response.text());
+  };
+  app.get(["/enterprise", "/enterprise/"], (_req, res) => sendRouteResponse(enterpriseGET(), res));
+  app.get(["/enterprise/thank-you", "/enterprise/thank-you/"], (_req, res) =>
+    sendRouteResponse(enterpriseThankYouGET(), res)
+  );
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+        // Share the app's HTTP server so the HMR WebSocket uses the same port the preview proxy exposes.
+        hmr: process.env.DISABLE_HMR === "true" ? false : { server: httpServer },
+      },
       appType: "spa",
     });
     app.use(vite.middlewares);
@@ -77,7 +95,7 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
+  httpServer.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 }
