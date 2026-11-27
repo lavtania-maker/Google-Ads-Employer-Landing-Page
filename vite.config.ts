@@ -7,6 +7,8 @@ export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [react(), tailwindcss()],
+    // New cache path gives prebundled deps fresh URLs, so browsers drop stale immutable-cached chunks.
+    cacheDir: 'node_modules/.vite-cache',
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
